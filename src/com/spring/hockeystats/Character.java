@@ -6,7 +6,7 @@ public class Character {
 
     private int ac;
     private int hp;
-    private ArrayList<Die> hitDie;
+    private ArrayList<Die> hitDice;
 
     public Character(int ac, int hp){
         this.ac = ac;
@@ -16,9 +16,11 @@ public class Character {
     public Character(int ac, int hp, int numHitDie, int sidesOfHitDie){
         this.ac = ac;
         this.hp = hp;
+        ArrayList<Die> dieList = new ArrayList<>();
         for (int dieCount = 0; dieCount < numHitDie; dieCount++){
-            hitDie.add(new Die(sidesOfHitDie));
+            dieList.add(new Die(sidesOfHitDie));
         }
+        this.hitDice = dieList;
     }
 
     public int getAc() {
@@ -31,9 +33,9 @@ public class Character {
 
     public int attack(){
         int damage = 0;
-        for(Die hitDice : hitDie){
-            hitDice.roll(hitDice.getSides());
-            damage += hitDice.getValue();
+        for(Die hitDie : hitDice){
+            hitDie.roll(hitDie.getSides());
+            damage += hitDie.getValue();
         }
         return damage;
     }
@@ -45,5 +47,12 @@ public class Character {
         } else {
             System.out.println("The enemy has " + hp + " hp left");
         }
+    }
+
+    public Boolean isDead(Character character){
+        if(character.getHp() <= 0){
+            return true;
+        }
+        return false;
     }
 }

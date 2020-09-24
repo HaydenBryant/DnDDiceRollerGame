@@ -3,11 +3,11 @@ package com.spring.hockeystats;
 import java.util.Scanner;
 
 public class InOut {
-    private Die d20 = new Die(20);
+    static private Die d20 = new Die(20);
 
-    Scanner scan = new Scanner(System.in);
+    static Scanner scan = new Scanner(System.in);
 
-    public Character createEnemy(){
+    static public Character createEnemy(){
         System.out.println("What is your enemys ac?: ");
         int ac = scan.nextInt();
         System.out.println("What is your enemys hp?: ");
@@ -16,22 +16,26 @@ public class InOut {
         return enemy;
     }
 
-    public Character createCharacter(){
+    static public Character createCharacter(){
         System.out.println("What is your characters ac?: ");
         int ac = scan.nextInt();
         System.out.println("What is your characters hp?: ");
         int hp = scan.nextInt();
         System.out.println("What are your characters hit die?(ex 2d6): ");
-        String[] hitDie = scan.nextLine().split("d");
-        int numHitDie = Integer.parseInt(hitDie[0]);
-        int hitDieSides = Integer.parseInt(hitDie[1]);
+        String hitDie = scan.next();
+
+        String[] hitDieArr = hitDie.split("d");
+
+
+        int numHitDie = Integer.parseInt(hitDieArr[0]);
+        int hitDieSides = Integer.parseInt(hitDieArr[1]);
 
         Character player = new Character(ac, hp, numHitDie, hitDieSides);
         return player;
     }
 
 
-    public int makeAttack(Character enemy, Character player){
+    static public int makeAttack(Character enemy, Character player){
         d20.roll(d20.getSides());
         System.out.println("You rolled " + d20.getValue());
         if (d20.getValue() <= enemy.getAc()){
@@ -49,5 +53,11 @@ public class InOut {
         return damage;
     }
 
+    static public String questionAttack(){
+        System.out.println("Would you like to attack?(y/n): ");
+        return(scan.next());
+    }
+
+//    static public Boolean isDead(Character character)
 
 }
