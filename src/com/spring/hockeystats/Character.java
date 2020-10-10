@@ -6,16 +6,22 @@ public class Character {
 
     private int ac;
     private int hp;
+    private int attackModifier;
+    private int defenceModifier;
     private ArrayList<Die> hitDice;
 
-    public Character(int ac, int hp){
+    public Character(int ac, int hp, int defenceModifier){
         this.ac = ac;
         this.hp = hp;
     }
 
-    public Character(int ac, int hp, int numHitDie, int sidesOfHitDie){
+    public Character(int ac, int hp, int attackModifier, int defenceModifier, int numHitDie, int sidesOfHitDie){
+        this.defenceModifier = defenceModifier;
+        this.attackModifier = attackModifier;
+
         this.ac = ac;
         this.hp = hp;
+
         ArrayList<Die> dieList = new ArrayList<>();
         for (int dieCount = 0; dieCount < numHitDie; dieCount++){
             dieList.add(new Die(sidesOfHitDie));
@@ -29,6 +35,14 @@ public class Character {
 
     public int getHp() {
         return hp;
+    }
+
+    public int getAttackModifier() {
+        return attackModifier;
+    }
+
+    public int getDefenceModifier() {
+        return defenceModifier;
     }
 
     public int attack(){

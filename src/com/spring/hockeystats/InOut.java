@@ -12,7 +12,9 @@ public class InOut {
         int ac = scan.nextInt();
         System.out.println("What is your enemys hp?: ");
         int hp = scan.nextInt();
-        Character enemy = new Character(ac, hp);
+        System.out.println("What is your enemys defence modifier");
+        int defMod = scan.nextInt();
+        Character enemy = new Character(ac, hp, defMod);
         return enemy;
     }
 
@@ -21,6 +23,12 @@ public class InOut {
         int ac = scan.nextInt();
         System.out.println("What is your characters hp?: ");
         int hp = scan.nextInt();
+        //will be more stats when i add weapon types to find what stat i need for midification
+        //for now it is just attack and deffence modifier
+        System.out.println("WHat is your characters attack modifier");
+        int atkMod = scan.nextInt();
+        System.out.println("What is your characters defence modifier");
+        int defMod = scan.nextInt();
         System.out.println("What are your characters hit die?(ex 2d6): ");
         String hitDie = scan.next();
 
@@ -30,7 +38,7 @@ public class InOut {
         int numHitDie = Integer.parseInt(hitDieArr[0]);
         int hitDieSides = Integer.parseInt(hitDieArr[1]);
 
-        Character player = new Character(ac, hp, numHitDie, hitDieSides);
+        Character player = new Character(ac, hp, atkMod, defMod, numHitDie, hitDieSides);
         return player;
     }
 
@@ -38,8 +46,8 @@ public class InOut {
     static public int makeAttack(Character enemy, Character player){
         d20.roll(d20.getSides());
         System.out.println("You rolled " + d20.getValue());
-        if (d20.getValue() <= enemy.getAc()){
-            System.out.println("Your roll was below the enemys ac of " + enemy.getAc() + " and you missed.");
+        if(d20.getValue() == 1){
+            System.out.println("Critical miss");
             return 0;
         }
         if(d20.getValue() == 20){
@@ -47,6 +55,10 @@ public class InOut {
             damage += player.attack();
             System.out.println("Your roll was a critical hit and you dealt " + damage + " damage.");
             return damage;
+        }
+        if ((d20.getValue() + player.getAttackModifier()) <= (enemy.getAc() + enemy.getDefenceModifier())){
+            System.out.println("Your roll was below the enemy's ac of " + enemy.getAc() + " and you missed.");
+            return 0;
         }
         int damage = player.attack();
         System.out.println("You dealt " + damage + " damage.");
